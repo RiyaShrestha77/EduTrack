@@ -25,7 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.edutrack.repository.UserRepoImpl
-import com.example.edutrack.ui.theme.LightBg
+import com.example.edutrack.ui.theme.Light
+
 import com.example.edutrack.ui.theme.NavyBlue
 import com.example.edutrack.ui.theme.White
 import com.example.edutrack.viewmodel.UserViewModel
@@ -57,7 +58,7 @@ fun ForgetPasswordScreen() {
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
-        containerColor = LightBg
+        containerColor = Light
     ) { padding ->
 
         Box(
@@ -151,7 +152,7 @@ fun ForgetPasswordScreen() {
                                     } else {
                                         coroutineScope.launch {
                                             snackbarHostState.showSnackbar(
-                                                message ?: "Something went wrong"
+                                                message
                                             )
                                         }
                                     }
