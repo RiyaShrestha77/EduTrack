@@ -1,6 +1,7 @@
 package com.example.edutrack.view
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.edutrack.R
+import kotlinx.coroutines.delay
 
 class SplashActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,54 +35,46 @@ class SplashActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SplashBody()
+
         }
     }
 }
 
 @Composable
-fun SplashBody() {
+fun SplashBody(){
     val context = LocalContext.current
     val activity = context as Activity
 
-//    LaunchedEffect(Unit) {
-//        delay(3000)
-//        if(){
-//            val intent = Intent(context,
-//                DashboardActivity::class.java)
-//            context.startActivity(intent)
-//            activity.finish()
-//        }else{
-//            val intent = Intent(context,
-//                LoginActivity::class.java)
-//            context.startActivity(intent)
-//            activity.finish()
-//        }
-//
-//    }
+    LaunchedEffect(Unit) {
+        delay(2000)
+        val intent = Intent(context, LoginActivity::class.java)
+        context.startActivity(intent)
+        activity.finish()
+    }
     Scaffold { padding ->
-        Column(
+        Column (
             modifier = Modifier
                 .fillMaxSize()
-                .padding()
-                .background(Color.White),
+                .padding().background(Color.White),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
-        ) {
+        ){
             Image(
-                painter = painterResource(R.drawable.face),
+                painter = painterResource(R.drawable.logo),
                 contentDescription = null,
-                modifier = Modifier.size(80.dp)
+                modifier = Modifier.size(300.dp)
             )
-            Spacer(modifier = Modifier.height(100.dp))
+            Spacer(modifier = Modifier.height(20.dp))
             CircularProgressIndicator(
                 color = Color.Blue
             )
         }
     }
+
 }
 
 @Preview
 @Composable
-fun SplashPreview() {
-    SplashBody()
+fun PreviewSplash(){
+
 }
