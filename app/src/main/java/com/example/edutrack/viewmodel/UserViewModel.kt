@@ -98,16 +98,7 @@ class UserViewModel(val repo: UserRepo) : ViewModel() {
         }
     }
 
-    fun addOrUpdateCourse(course: CourseModel, callback: (Boolean, String) -> Unit) {
-        _isLoading.value = true
-        repo.addCourse(course) { success, msg ->
-            _isLoading.value = false
-            if (success) {
-                getAllCourses()
-            }
-            callback(success, msg)
-        }
-    }
+    
 
 
     fun getMyCourses() {
