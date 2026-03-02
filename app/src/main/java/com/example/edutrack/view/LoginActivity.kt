@@ -10,41 +10,19 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
@@ -65,9 +43,6 @@ import com.example.edutrack.viewmodel.UserViewModel
 import com.example.edutrack.repository.UserRepoImpl
 import com.example.edutrack.ui.theme.Blue
 import com.example.edutrack.ui.theme.White
-import androidx.compose.foundation.lazy.items
-
-
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,9 +54,8 @@ class LoginActivity : ComponentActivity() {
     }
 }
 
- @Composable
+@Composable
 fun LoginBody() {
-
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var visibility by remember { mutableStateOf(false) }
@@ -100,18 +74,15 @@ fun LoginBody() {
             SnackbarHost(hostState = snackbarHostState)
         }
     ) { padding ->
-
-        LazyColumn (
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .background(White),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             item {
                 Spacer(modifier = Modifier.height(50.dp))
-
                 Text(
                     "Sign In",
                     style = TextStyle(
@@ -120,10 +91,9 @@ fun LoginBody() {
                         fontWeight = FontWeight.Bold
                     )
                 )
-
                 Text(
-                    "This is lorem ipsum, this is ecommerce here you can buy any products you want",
-                    modifier = Modifier.padding(vertical = 20.dp),
+                    "Sign in to access your EduTrack dashboard and manage your learning journey.",
+                    modifier = Modifier.padding(vertical = 20.dp, horizontal = 16.dp),
                     style = TextStyle(
                         textAlign = TextAlign.Center,
                         color = Black.copy(0.5f)
@@ -131,9 +101,8 @@ fun LoginBody() {
                 )
             }
 
-
             item {
-                LazyRow (
+                LazyRow(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 15.dp),
@@ -183,14 +152,14 @@ fun LoginBody() {
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 15.dp),
+                        .padding(horizontal = 15.dp)
+                        .testTag("email"),
                     shape = RoundedCornerShape(15.dp)
                 )
             }
 
             item {
                 Spacer(modifier = Modifier.height(20.dp))
-
                 OutlinedTextField(
                     value = password,
                     onValueChange = { password = it },
@@ -206,9 +175,8 @@ fun LoginBody() {
                             )
                         }
                     },
-                    visualTransformation =
-                        if (!visibility) PasswordVisualTransformation()
-                        else VisualTransformation.None,
+                    visualTransformation = if (!visibility) PasswordVisualTransformation()
+                    else VisualTransformation.None,
                     colors = TextFieldDefaults.colors(
                         unfocusedContainerColor = PurpleGrey80,
                         focusedContainerColor = PurpleGrey80,
@@ -217,40 +185,31 @@ fun LoginBody() {
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 15.dp),
+                        .padding(horizontal = 15.dp)
+                        .testTag("password"),
                     shape = RoundedCornerShape(15.dp)
                 )
             }
 
             item {
                 Spacer(modifier = Modifier.height(20.dp))
-
                 Button(
                     onClick = {
                         loginViewModel.login(email, password) { success, _ ->
                             if (success) {
-                                Toast.makeText(
-                                    context,
-                                    "Login Successful",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                context.startActivity(
-                                    Intent(context, DashboardActivity::class.java)
-                                )
+                                Toast.makeText(context, "Login Successful", Toast.LENGTH_SHORT).show()
+                                context.startActivity(Intent(context, DashboardActivity::class.java))
                                 activity.finish()
                             } else {
-                                Toast.makeText(
-                                    context,
-                                    "Login failed",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
                             }
                         }
                     },
                     shape = RoundedCornerShape(10.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 15.dp, vertical = 20.dp),
+                        .padding(horizontal = 15.dp, vertical = 20.dp)
+                        .testTag("login_button"),
                     colors = ButtonDefaults.buttonColors(containerColor = Blue)
                 ) {
                     Text("Log In")
@@ -265,23 +224,20 @@ fun LoginBody() {
                             append("Sign up")
                         }
                     },
-                    modifier = Modifier.clickable {
-                        context.startActivity(
-                            Intent(context, RegistrationActivity::class.java)
-                        )
-                    }
+                    modifier = Modifier
+                        .clickable {
+                            context.startActivity(Intent(context, RegistrationActivity::class.java))
+                        }
+                        .testTag("register_link")
                 )
             }
         }
     }
 }
 
-
 @Composable
 fun SocialMediaCard(modifier: Modifier, image: Int, label: String) {
-    Card(
-        modifier = modifier
-    ) {
+    Card(modifier = modifier) {
         Row(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
@@ -297,7 +253,6 @@ fun SocialMediaCard(modifier: Modifier, image: Int, label: String) {
         }
     }
 }
-
 
 @Preview
 @Composable
